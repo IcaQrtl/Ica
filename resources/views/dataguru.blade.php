@@ -3,7 +3,7 @@
 @section('title', 'Data Guru')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Input Data Guru</h1>
+    <!-- <h1 class="m-0 text-dark">Input Data Guru</h1> -->
 @stop
 
 @section('content')
@@ -13,56 +13,50 @@ $params_id = null;
 
 <div class="container-fluid">
     <div class="card card-default">
-        <div class="card-body">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-             Input Data Guru</button>
-             <table id="table-data" class="table table-bordered">
-                <thead>
-                    {{--Data Guru--}}
-                </thead>
-            </table>
-            </div>
 
-            <!--modal-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+    </div>
+</div>
 
-                    <form id="dataguru" name="dataguru" method="post" action="{{route('create.dataguru')}}" enctype="multipart/form-data">
+<!--modal edit-->
+<div class="modal fade" id="EditGuru" tabindex="-1" role="dialog" aria-labelledby="EditGuruLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="EditGuruLabel">Edit Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+                <form id="dataguru" name="dataguru" method="post" action="{{route('update.dataguru')}}" enctype="multipart/form-data">
                     @csrf
+                    
                     <h5>Data Guru</h5>
                     <div class="form-group">
-                            <label for="NIDN">NIDN</label>
-                            <input type="text" class="form-control" name="NIDN" id="NIDN" required/>
-                        </div>
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" name="nama" id="edit-nama" required/>
+                    </div>
                     <div class="form-group">
-                            <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="nama" id="nama" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="jeniskelamin">Jenis Kelamin</label>
-                            <select name="jeniskelamin" class="form-control"
-                                id="jeniskelamin">
-                                <option value=""></option>
-                                <option value="laki-laki">Laki - Laki</option>
-                                <option value="perempuan">Perempuan</option>
-                            </select>                                            
-                        </div>
-                        <div class="form-group">
-                            <label for="notlpn">No Telepon</label>
-                            <input type="text" class="form-control" name="notlpn" id="notlpn" required/>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
+                        <label for="jeniskelamin">Pilih Jenis Kelamin</label>
+                        <select name="jeniskelamin" class="form-control" id="edit-jeniskelamin">
+                            <option value="">--Jenis Kelamin--</option>
+                            <option value="laki-laki"> Laki-Laki </option>
+                            <option value="perempuan"> Perempuan </option>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <label for="notlpn">No Telp</label>
+                        <input type="text" class="form-control" name="notlpn" id="edit-notlpn" required/>
+                    </div>
+
+                    <input type="hidden" class="form-control" name="id" id="edit-id"/>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
                 </div>
             </div>
     </div>
@@ -73,6 +67,7 @@ $params_id = null;
             <h3>Data Guru</h3>
             <table class="table table-bordered text-center justify-content-center">
                 <thead>
+                    <th>No</th>
                     <th>NIDN</th>
                     <th>Nama</th>
                     <th>Jenis Kelamin</th>
@@ -83,18 +78,15 @@ $params_id = null;
                 @php $no=1; @endphp
                     @foreach($dataguru as $datagurus)
                         <tr>
+                            <td>{{$no++}}</td>
                             <td>{{$datagurus->NIDN}}</td>
                             <td>{{$datagurus->nama}}</td>
                             <td>{{$datagurus->jeniskelamin}}</td>
                             <td>{{$datagurus->notlpn}}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic exxample">
-                                    <button type="button" class="btn btn-secondary">
-                                        Edit
-                                    </button>
-                                    <button type="button" class="btn btn-danger" >
-                                        Hapus
-                                    </button>
+                                    <button type="button" id="btn-edit-guru" class="btn btn-success" data-toggle="modal" data-target="#EditGuru" data-id="{{ $datagurus->id }}">Edit</button>    
+                                    <a href="{{ route('delete.dataguru', $datagurus->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                 </div>
                             </td>
                         </tr>
@@ -109,29 +101,30 @@ $params_id = null;
 @endsection
 
 @push('js')
-    <script>
-        $(function() {})
-
-        $('#saveBtn').click(function(e){
-            e.preventDefault();
-            $(this).html('Sending..');
-
+<script>
+    //Edit
+    $(function(){
+        $(document).on('click','#btn-edit-guru', function(){
+            let id = $(this).data('id');
+            // alert(id);
+            // console.log(id);
             $.ajax({
-                data: $('#dataguru').serialize(),
-                url: "{{ route('dataguru')}}",
-                type: "POST",
+                type: "get",
+                url: "{{url('dataguru/edit')}}/"+id,
                 dataType: 'json',
-                success: function(data){
-
-                    $('#dataguru').trigger("reset");
-                    $('#dataguruModal').modal('hide');
+                success: function(res){
+                    console.log(res);
+                    // $('#edit-name').val(res.name);
+                    $('#edit-id').val(res.id);
+                    $('#edit-nama').val(res.nama);
+                    $('#edit-jeniskelamin').val(res.jeniskelamin);
+                    $('#edit-notlpn').val(res.notlpn);
                 },
-                error: function(data){
-                    console.log('Error:', data);
-                    $('#saveBtn').html('Save Changes');
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
             });
-            location.reload();
         });
-        </script>
-        @endpush
+    });
+</script>
+@endpush

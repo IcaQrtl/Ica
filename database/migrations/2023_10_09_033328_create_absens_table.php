@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDatagurusTable extends Migration
+class CreateAbsensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateDatagurusTable extends Migration
      */
     public function up()
     {
-        Schema::create('datagurus', function (Blueprint $table) {
+        Schema::create('absens', function (Blueprint $table) {
             $table->id();
-            $table->string('NIDN')->uniqeu();
-            $table->string('nama');
-            $table->string('jeniskelamin');
-            $table->string('notlpn');
-            $table->integer('user_id');
+            $table->integer('id_nilai');
+            $table->integer('hadir');
+            $table->integer('sakit');
+            $table->integer('ijin');
+            $table->integer('alpha');
+            $table->integer('total');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateDatagurusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datagurus');
+        Schema::dropIfExists('absens');
     }
 }

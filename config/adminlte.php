@@ -291,68 +291,90 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'navbar-search',
+        //     'text'         => 'search',
+        //     'topnav_right' => true,
+        // ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
         // Sidebar items:
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
+        //Menu Admin
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Data Akun',
+            'url'  => 'dataakun',
+            'icon' => 'fas fa-fw fa-user',
+            'can'  => 'isAdmin'
         ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
         [
             'text' => 'Data Siswa',
             'url'  => 'datasiswa',
             'icon' => 'fas fa-fw fa-user',
+            'can'  => 'isAdmin',
         ],
         [
             'text' => 'Data Guru',
             'url'  => 'dataguru',
             'icon' => 'fas fa-fw fa-lock',
+            'can'  => 'isAdmin',
         ],
         [
             'text' => 'Data Kelas',
             'url'  => 'datakelas',
             'icon' => 'fas fa-fw fa-user',
+            'can'  => 'isAdmin',
         ],
         [
-            'text' => 'Mata Pelajaran',
+            'text' => 'Data Mata Pelajaran',
             'url'  => 'matapelajaran',
             'icon' => 'fas fa-fw fa-user',
+            'can'  => 'isAdmin',
         ],
         [
             'text' => 'Upload Jadwal',
-            'url'  => 'admin/settings',
+            'url'  => 'jadwal',
             'icon' => 'fas fa-fw fa-upload',
+            'can'  => 'isAdmin',
+        ],
+        //Menu Guru
+        [
+            'text' => 'Data Nilai',
+            'url'  => 'datanilai',
+            'icon' => 'fas fa-fw fa-user',
+            'can'  => 'isGuru',
         ],
         [
-            'text' => 'Download Laporan',
+            'text' => 'Data Absen',
+            'url'  => 'dataabsen',
+            'icon' => 'fas fa-fw fa-user',
+            'can'  => 'isGuru',
+        ],
+        //Menu Wali Kelas
+        [
+            'text' => 'Lihat Nilai',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-download',
+            'can'  => 'isGuru',
+        ],
+        //Menu Siswa
+        [
+            'text' => 'Lihat Nilai',
+            'url'  => '/datanilai/siswa',
+            'icon' => 'fas fa-fw fa-download',
+            'can'  => 'isSiswa',
         ],
         [
-            'text' => 'Data Akun',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Download Jadwal',
+            'url'  => 'downjadwal',
+            'icon' => 'fas fa-fw fa-download',
+            'can'  => 'isSiswa',
         ],
         
     ],

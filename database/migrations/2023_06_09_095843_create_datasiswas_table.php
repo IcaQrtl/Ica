@@ -15,13 +15,15 @@ class CreateDatasiswasTable extends Migration
     {
         Schema::create('datasiswas', function (Blueprint $table) {
             $table->id();
-            $table->char('NISN');
+            $table->string('NISN')->unique();
             $table->string('nama');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('alamat');
-            $table->char('notlpn');
+            $table->string('notlpn');
             $table->string('jeniskelamin');
+            $table->integer('user_id');
+            $table->integer('kelas_id');
             $table->timestamps();
         });
     }
