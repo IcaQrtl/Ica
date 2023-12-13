@@ -23,37 +23,38 @@ $params_id = null;
             </table>
             </div>
 
-      <!--modal-->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+    <!--modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        
-                    <form id="matapelajaran" name="matapelajaran" method="post" action="{{route('create.matapelajaran')}}" enctype="multipart/form-data">
-                    @csrf
-                    <h5>Mata Pelajaran</h5>
-                    <div class="form-group">
-                            <label for="id_mapel">ID Mapel</label>
-                            <input type="text" class="form-control" name="id_mapel" id="id_mapel" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="namamapel">Nama Mapel</label>
-                            <input type="text" class="form-control" name="namamapel" id="namamapel" required/>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
+    
+                <form id="matapelajaran" name="matapelajaran" method="post" action="{{route('create.matapelajaran')}}" enctype="multipart/form-data">
+                @csrf
+                <h5>Mata Pelajaran</h5>
+                <div class="form-group">
+                        <label for="id_mapel">ID Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="id_mapel" id="id_mapel" required/>
                     </div>
+                    <div class="form-group">
+                        <label for="namamapel">Nama Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="namamapel" id="namamapel" required/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
+        </div>
     </div>
+
 </div>
 
 
@@ -62,25 +63,22 @@ $params_id = null;
             <h3>Mata Pelajaran</h3>
             <table class="table table-bordered text-center justify-content-center">
                 <thead>
+                    <th>No</th>
                     <th>ID Mapel</th>
                     <th>Nama Mapel</th>
                     <th>Aksi</th>
-            </thead>
+                </thead>
             <tbody>
             @php $no=1; @endphp
                     @foreach($matapelajaran as $matapelajarans)
                         <tr>
-                            <td>{{$matapelajarans->id_mapel}}</td>
-                            <td>{{$matapelajarans->namamapel}}</td>
+                            <!-- <td>{{$matapelajarans->id_mapel}}</td> -->
+                            <td>{{$no++}}</td>
+                            <td>{{$matapelajarans->id}}</td>
+                            <td>{{$matapelajarans->nama}}</td>
                             <td>
-                                <div class="btn-group" role="group" aria-label="Basic exxample">
-                                    <button type="button" class="btn btn-secondary">
-                                        Edit
-                                    </button>
-                                    <button type="button" class="btn btn-danger" >
-                                        Hapus
-                                    </button>
-                                </div>
+                                <button type="button" id="btn-edit-mapel" class="btn btn-success" data-toggle="modal" data-target="#EditMapel" data-id="{{ $matapelajarans->id }}">Edit</button>    
+                                <a href="{{ route('delete.matapelajaran', $matapelajarans->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                             </td>
                         </tr>
                         @endforeach
@@ -91,32 +89,68 @@ $params_id = null;
     </div>
 </div>
 
+<!--modal edit-->
+<div class="modal fade" id="EditMapel" tabindex="-1" role="dialog" aria-labelledby="EditMapelLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="EditMapelLabel">Edit Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+                <form id="matapelajaran" name="matapelajaran" method="post" action="{{route('update.matapelajaran')}}" enctype="multipart/form-data">
+                    @csrf
+                    
+                    <h5>Data Siswa</h5>
+                    <div class="form-group">
+                        <label for="id">ID Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="id" id="edit-id" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Nama Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="nama" id="edit-nama" required/>
+                    </div>
+
+                    <!-- <input type="hidden" class="form-control" name="id" id="edit-id"/> -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+    </div>
+</div>
+
 @endsection
 
 @push('js')
-    <script>
-        $(function() {})
-
-        $('#saveBtn').click(function(e){
-            e.preventDefault();
-            $(this).html('Sending..');
-
+<script>
+    //Edit
+    $(function(){
+        $(document).on('click','#btn-edit-mapel', function(){
+            let id = $(this).data('id');
+            // alert(id);
+            // console.log(id);
             $.ajax({
-                data: $('#matapelajaran').serialize(),
-                url: "{{ route('matapelajaran')}}",
-                type: "POST",
+                type: "get",
+                url: "{{url('matapelajaran/edit')}}/"+id,
                 dataType: 'json',
-                success: function(data){
-
-                    $('#matapelajaran').trigger("reset");
-                    $('#matapelajaranModal').modal('hide');
+                success: function(res){
+                    console.log(res);
+                    // $('#edit-name').val(res.name);
+                    $('#edit-id').val(res.id);
+                    $('#edit-nama').val(res.nama);
                 },
-                error: function(data){
-                    console.log('Error:', data);
-                    $('#saveBtn').html('Save Changes');
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
             });
-            location.reload();
         });
-        </script>
-        @endpush
+    });
+</script>
+@endpush

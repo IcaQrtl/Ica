@@ -15,8 +15,8 @@ class CreateDatakelasTable extends Migration
     {
         Schema::create('datakelas', function (Blueprint $table) {
             $table->id();
-            $table->char('IDkelas');
-            $table->string('namakelas');
+            $table->string('nama_kelas');
+            $table->integer('wali_id');
             $table->timestamps();
         });
     }

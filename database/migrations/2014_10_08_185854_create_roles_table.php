@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDatagurusTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateDatagurusTable extends Migration
      */
     public function up()
     {
-        Schema::create('datagurus', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('NIDN')->uniqeu();
             $table->string('nama');
-            $table->string('jeniskelamin');
-            $table->string('notlpn');
-            $table->integer('user_id');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateDatagurusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datagurus');
+        Schema::dropIfExists('roles');
     }
 }
