@@ -372,7 +372,7 @@ return [
         ],
         [
             'text' => 'Download Jadwal',
-            'url'  => 'downjadwal',
+            'url'  => '/download/siswa',
             'icon' => 'fas fa-fw fa-download',
             'can'  => 'isSiswa',
         ],

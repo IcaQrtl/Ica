@@ -106,7 +106,9 @@ class nilaiController extends Controller
     {
         $user = Auth::user();
         $user_id = $user->id;
+        
         $nisn = datasiswa::where('user_id',$user_id)->first()->value('NISN');
+        $nama = datasiswa::where('user_id',$user_id)->first()->value('nama');
 
         $absen = absen::join('nilais', 'absens.id_nilai', '=', 'nilais.id')
             ->select('nilais.*', 'absens.*')
@@ -117,6 +119,6 @@ class nilaiController extends Controller
         $text = "Kamu yakin hapus absen ini ?";
         confirmDelete($title, $text); 
 
-        return view('dataabsen', compact('user', 'absen'));
+        return view('nilaisiswa', compact('user', 'absen', 'nisn', 'nama'));
     }
 }

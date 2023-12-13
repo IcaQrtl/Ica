@@ -77,4 +77,7 @@ Route::get('/dataabsen/edit/{id}', [App\Http\Controllers\absenController::class,
 Route::post('/dataabsen/update', [App\Http\Controllers\absenController::class, 'update'])->name('update.dataabsen')->middleware('is_guru');
 Route::delete('/dataabsen/delete/{id}', [App\Http\Controllers\absenController::class, 'delete'])->name('delete.dataabsen')->middleware('is_guru');
 
+//Siswa
 Route::get('/datanilai/siswa', [App\Http\Controllers\nilaiController::class, 'nilai_siswa'])->name('datanilai.siswa')->middleware('is_siswa');
+Route::get('/download/siswa', [App\Http\Controllers\jadwalController::class, 'jadwal_siswa'])->name('datanilai.siswa')->middleware('is_siswa');
+Route::get('/download/{filename}', [App\Http\Controllers\jadwalController::class, 'download'])->name('file.download')->middleware('is_siswa');

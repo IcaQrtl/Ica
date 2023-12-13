@@ -56,4 +56,24 @@ class jadwalController extends Controller
             return redirect()->back();  
         } 
     }
+
+    public function jadwal_siswa()
+    {
+        $user = Auth::user();
+        $files = Jadwal::all();
+        // dd($files);
+        return view('download', compact('user', 'files'));
+    }
+
+    public function download($filename)
+    {
+        $file = storage_path("app/public/jadwal/{$filename}");
+
+        if (file_exists($file)) {
+            return response()->download($file);
+        } else {
+            abort(404, 'File not found');
+        }
+    }
+
 }
