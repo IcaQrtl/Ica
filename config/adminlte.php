@@ -359,8 +359,8 @@ return [
         //Menu Wali Kelas
         [
             'text' => 'Lihat Nilai',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-download',
+            'url'  => 'walikelas',
+            'icon' => 'fas fa-fw fa-user',
             'can'  => 'isGuru',
         ],
         //Menu Siswa
