@@ -106,9 +106,10 @@ class nilaiController extends Controller
     {
         $user = Auth::user();
         $user_id = $user->id;
+        $name = $user->name;
         
         $nisn = datasiswa::where('user_id',$user_id)->first()->value('NISN');
-        $nama = datasiswa::where('user_id',$user_id)->first()->value('nama');
+        $nama = datasiswa::where('nama',$name)->first()->value('nama');
 
         $absen = absen::join('nilais', 'absens.id_nilai', '=', 'nilais.id')
             ->select('nilais.*', 'absens.*')

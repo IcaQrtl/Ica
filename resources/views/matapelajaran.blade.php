@@ -34,7 +34,7 @@ $params_id = null;
                     </button>
                 </div>
 
-    
+                <div class="modal-body">
                 <form id="matapelajaran" name="matapelajaran" method="post" action="{{route('create.matapelajaran')}}" enctype="multipart/form-data">
                 @csrf
                 <h5>Mata Pelajaran</h5>
@@ -51,6 +51,7 @@ $params_id = null;
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
