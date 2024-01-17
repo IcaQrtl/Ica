@@ -123,4 +123,17 @@ class nilaiController extends Controller
 
         return view('nilaisiswa', compact('user', 'absen', 'nisn', 'nama'));
     }
+
+    // public function calculateTotalScore($nilai, $absen) {
+    //     // Tentukan bobot nilai dan absen sesuai kebutuhan
+    //     $bobotNilai = 0.8; // misalnya bobot nilai 80%
+    //     $bobotAbsen = 0.2; // misalnya bobot absen 20%
+    
+    //     // Hitung total nilai dengan bobot
+    //     $totalNilai = ($nilai * $bobotNilai) + ($absen * $bobotAbsen);
+    
+    //     // Return total nilai
+    //     return $totalNilai;
+    // }
+    
 }

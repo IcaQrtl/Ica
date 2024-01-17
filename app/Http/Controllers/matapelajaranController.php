@@ -23,13 +23,13 @@ class matapelajaranController extends Controller
     public function store(Request $request){
 
         $validate = $request->all([
-            'id' => 'required',
-            'nama' => 'required',
+            'id_mapel' => 'required',
+            'namamapel' => 'required',
         ]);
 
         $matapelajaran = new matapelajaran;
-        $matapelajaran->id = $req->get('id');
-        $matapelajaran->nama = $req->get('nama');
+        $matapelajaran->id = $request->get('id_mapel');
+        $matapelajaran->nama = $request->get('namamapel');
         $matapelajaran->save();
 
         Alert::success('Berhasil', 'Data Berhasil Dibuat');
@@ -43,17 +43,18 @@ class matapelajaranController extends Controller
     }
 
     public function update(Request $req){
-        $matapelajaran = matapelajaran::find($req->get('id'));
+        $matapelajarans = matapelajaran::find($req->get('id'));
 
         $validate = $req->all([
             'nama' => 'required',
         ]);
-
-        $matapelajaran->nama = $req->get('nama');
-        $matapelajaran->save();
+        
+        $matapelajarans->nama = $req->get('nama');
+        $matapelajarans->save();
 
         Alert::success('Berhasil', 'Data Berhasil Diubah');
         return redirect()->back();
+
     }
 
     public function delete($id){

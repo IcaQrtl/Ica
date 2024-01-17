@@ -13,6 +13,7 @@ class walikelasController extends Controller
 {
     public function index(){
         $user = Auth::user();
+        
         $user_id = $user->id;
 
         $wali = dataguru::where('user_id',$user_id)->value('nama');

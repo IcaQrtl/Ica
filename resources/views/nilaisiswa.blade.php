@@ -31,6 +31,7 @@ $params_id = null;
             <th>Sakit</th>
             <th>Alpha</th>
             <th>Total</th>
+            
         </thead>
         <tbody>
         @php $no=1; @endphp
@@ -45,6 +46,7 @@ $params_id = null;
                     <td>{{$absens->sakit}}</td>
                     <td>{{$absens->alpha}}</td>
                     <td>{{$absens->total}}</td>
+                    
                 </tr>
             @endforeach
         </tbody>
