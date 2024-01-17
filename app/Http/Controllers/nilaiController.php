@@ -106,15 +106,17 @@ class nilaiController extends Controller
     {
         $user = Auth::user();
         $user_id = $user->id;
-        
-        $nisn = datasiswa::where('user_id',$user_id)->first()->value('NISN');
-        $nama = datasiswa::where('user_id',$user_id)->first()->value('nama');
+
+        $siswa = datasiswa::where('user_id',$user_id)->first();
+
+        $nisn = $siswa->NISN;
+        $nama = $siswa->nama;
 
         $absen = absen::join('nilais', 'absens.id_nilai', '=', 'nilais.id')
             ->select('nilais.*', 'absens.*')
             ->where('nilais.NISN', $nisn)
             ->get();
-        // dd($absen);
+
         $title = 'Hapus Absen!';
         $text = "Kamu yakin hapus absen ini ?";
         confirmDelete($title, $text); 
