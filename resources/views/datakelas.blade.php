@@ -95,7 +95,7 @@ $params_id = null;
                     <select name="wali" class="form-control" id="wali">
                         <option value="">--Wali Kelas--</option>
                         @foreach($wali as $walis)
-                            <option value="{{$walis->id}}">{{$walis->nama}}</option>
+                            <option value="{{$wali->id}}">{{$wali->nama}}</option>
                         @endforeach
                     </select>                                            
                 </div>

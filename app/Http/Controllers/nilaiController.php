@@ -106,10 +106,9 @@ class nilaiController extends Controller
     {
         $user = Auth::user();
         $user_id = $user->id;
-        $name = $user->name;
         
         $nisn = datasiswa::where('user_id',$user_id)->first()->value('NISN');
-        $nama = datasiswa::where('nama',$name)->first()->value('nama');
+        $nama = datasiswa::where('user_id',$user_id)->first()->value('nama');
 
         $absen = absen::join('nilais', 'absens.id_nilai', '=', 'nilais.id')
             ->select('nilais.*', 'absens.*')
@@ -122,4 +121,17 @@ class nilaiController extends Controller
 
         return view('nilaisiswa', compact('user', 'absen', 'nisn', 'nama'));
     }
+
+    // public function calculateTotalScore($nilai, $absen) {
+    //     // Tentukan bobot nilai dan absen sesuai kebutuhan
+    //     $bobotNilai = 0.8; // misalnya bobot nilai 80%
+    //     $bobotAbsen = 0.2; // misalnya bobot absen 20%
+    
+    //     // Hitung total nilai dengan bobot
+    //     $totalNilai = ($nilai * $bobotNilai) + ($absen * $bobotAbsen);
+    
+    //     // Return total nilai
+    //     return $totalNilai;
+    // }
+    
 }
