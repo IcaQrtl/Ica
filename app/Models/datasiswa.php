@@ -16,5 +16,7 @@ class datasiswa extends Model
         'alamat',
         'notlpn',
         'jeniskelamin',
+        'user_id',
+        'kelas_id',
     ];
 }

@@ -3,7 +3,7 @@
 @section('title', 'Mata Pelajaran')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Input Mata Pelajaran</h1>
+    <h1 class="m-0 text-dark">Data Mata Pelajaran</h1>
 @stop
 
 @section('content')
@@ -14,14 +14,39 @@ $params_id = null;
 <div class="container-fluid">
     <div class="card card-default">
         <div class="card-body">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-             Input Mata Pelajaran</button>
-             <table id="table-data" class="table table-bordered">
-                <thead>
-                    {{--Mata Pelajaran--}}
-                </thead>
-            </table>
+            <div class="row justify-content-end m-1">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Input Mata Pelajaran</button>
             </div>
+            <br>
+            <!-- Mata Pelajaran -->
+            <table class="table table-bordered text-center justify-content-center" id="table-data">
+                <thead>
+                    <th>No</th>
+                    <th>Nama Mapel</th>
+                    <th>Kelas</th>
+                    <th>Guru</th>
+                    <th>Aksi</th>
+                </thead>
+            <tbody>
+            @php $no=1; @endphp
+                    @foreach($matapelajaran as $matapelajarans)
+                        <tr>
+                            <!-- <td>{{$matapelajarans->id_mapel}}</td> -->
+                            <td>{{$no++}}</td>
+                            <td>{{$matapelajarans->nama}}</td>
+                            <td>{{$matapelajarans->nama_kelas}}</td>
+                            <td>{{$matapelajarans->nama_guru}}</td>
+                            <td>
+                                <button type="button" id="btn-edit-mapel" class="btn btn-success" data-toggle="modal" data-target="#EditMapel" data-id="{{ $matapelajarans->id }}">Edit</button>    
+                                <a href="{{ route('delete.matapelajaran', $matapelajarans->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
     <!--modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,39 +81,6 @@ $params_id = null;
         </div>
     </div>
 
-</div>
-
-
-<!-- Mata Pelajaran -->
-<div class="card-body">
-            <h3>Mata Pelajaran</h3>
-            <table class="table table-bordered text-center justify-content-center">
-                <thead>
-                    <th>No</th>
-                    <th>ID Mapel</th>
-                    <th>Nama Mapel</th>
-                    <th>Aksi</th>
-                </thead>
-            <tbody>
-            @php $no=1; @endphp
-                    @foreach($matapelajaran as $matapelajarans)
-                        <tr>
-                            <!-- <td>{{$matapelajarans->id_mapel}}</td> -->
-                            <td>{{$no++}}</td>
-                            <td>{{$matapelajarans->id}}</td>
-                            <td>{{$matapelajarans->nama}}</td>
-                            <td>
-                                <button type="button" id="btn-edit-mapel" class="btn btn-success" data-toggle="modal" data-target="#EditMapel" data-id="{{ $matapelajarans->id }}">Edit</button>    
-                                <a href="{{ route('delete.matapelajaran', $matapelajarans->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                </tbody>
-            </table>
-            <br>
-        </div>
-    </div>
-</div>
 
 <!--modal edit-->
 <div class="modal fade" id="EditMapel" tabindex="-1" role="dialog" aria-labelledby="EditMapelLabel" aria-hidden="true">

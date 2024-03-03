@@ -50,7 +50,7 @@ class dataakuncontroller extends Controller
 
         if($req->get('role_id') == '2'){
             $validate = $req->all([
-                'NIDN' => 'required|max:255',
+                'NIP' => 'required|max:255',
                 'nama' => 'required',
                 'jeniskelamin' => 'required',
                 'notlpn' => 'required',
@@ -58,7 +58,7 @@ class dataakuncontroller extends Controller
 
             $guru = new dataguru;
             
-            $guru->NIDN = $req->get('NIDN');
+            $guru->NIP = $req->get('NIP');
             $guru->nama = $req->get('nama');
             $guru->jeniskelamin = $req->get('jeniskelamin');
             $guru->notlpn = $req->get('notlpn');
@@ -105,12 +105,12 @@ class dataakuncontroller extends Controller
         $user = User::find($req->get('id'));
 
         $validate = $req->all([
+            'username' => 'required',
             'name' => 'required|max:255',
-            'email' => 'required',
         ]);
 
+        $user->username = $req->get('username');
         $user->name = $req->get('name');
-        $user->email = $req->get('email');
         $user->save();
 
         Alert::success('Berhasil', 'Data Berhasil Diubah');

@@ -33,10 +33,11 @@ Route::post('/dataakun/update', [App\Http\Controllers\dataakunController::class,
 Route::delete('/dataakun/delete/{id}', [App\Http\Controllers\dataakunController::class, 'delete'])->name('delete.dataakun')->middleware('is_admin');
 
 Route::get('/datasiswa', [App\Http\Controllers\datasiswaController::class, 'index'])->name('datasiswa')->middleware('is_admin');
-Route::post('/datasiswa', [App\Http\Controllers\datasiswaController::class, 'store'])->name('create.store')->middleware('is_admin');
+Route::post('/datasiswa', [App\Http\Controllers\datasiswaController::class, 'store'])->name('create.datasiswa')->middleware('is_admin');
 Route::get('/datasiswa/edit/{id}', [App\Http\Controllers\datasiswaController::class, 'edit'])->name('edit.datasiswa')->middleware('is_admin');
 Route::post('/datasiswa/update', [App\Http\Controllers\datasiswaController::class, 'update'])->name('update.datasiswa')->middleware('is_admin');
 Route::delete('/datasiswa/delete/{id}', [App\Http\Controllers\datasiswaController::class, 'delete'])->name('delete.datasiswa')->middleware('is_admin');
+Route::post('/datasiswa/import', [App\Http\Controllers\datasiswaController::class, 'import'])->name('import.datasiswa')->middleware('is_admin');
 
 Route::get('/dataguru', [App\Http\Controllers\dataguruController::class, 'index'])->name('dataguru')->middleware('is_admin');
 Route::post('/dataguru', [App\Http\Controllers\dataguruController::class, 'store'])->name('create.dataguru')->middleware('is_admin');
@@ -65,6 +66,8 @@ Route::post('/datanilai', [App\Http\Controllers\nilaiController::class, 'store']
 Route::get('/datanilai/edit/{id}', [App\Http\Controllers\nilaiController::class, 'edit'])->name('edit.datanilai')->middleware('is_guru');
 Route::post('/datanilai/update', [App\Http\Controllers\nilaiController::class, 'update'])->name('update.datanilai')->middleware('is_guru');
 Route::delete('/datanilai/delete/{id}', [App\Http\Controllers\nilaiController::class, 'delete'])->name('delete.datanilai')->middleware('is_guru');
+Route::get('/datanilai/get-siswa/{id}', [App\Http\Controllers\nilaiController::class, 'getSiswaByMatapelajaran'])->name('get_siswa.datanilai')->middleware('is_guru');
+
 
 Route::get('/dataabsen', [App\Http\Controllers\absenController::class, 'index'])->name('dataabsen')->middleware('is_guru');
 Route::post('/dataabsen', [App\Http\Controllers\absenController::class, 'update'])->name('update.dataabsen')->middleware('is_guru');

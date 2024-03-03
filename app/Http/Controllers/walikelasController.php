@@ -16,20 +16,19 @@ class walikelasController extends Controller
         
         $user_id = $user->id;
 
-        $wali = dataguru::where('user_id',$user_id)->value('nama');
-
+        $wali = dataguru::where('user_id',$user_id)->value('id');
+        // dd($wali);
         $kelas = datakelas::where('wali_id',$wali)->first();
-
+        // dd($kelas);
         if ($kelas !== null) {
             $nama_kelas = $kelas->value('nama_kelas') ?? 0; 
         } else {
-
             Alert::warning('Warning', 'Anda Bukan Wali Kelas');
             return redirect()->back();
-        }return redirect()->back();
+        }
 
-        $id_kelas = datakelas::where('wali_id',$wali)->first()->value('id');
- 
+        $id_kelas = datakelas::where('wali_id',$wali)->value('id');
+        // dd($id_kelas);
         $siswa = datasiswa::join('nilais', 'datasiswas.NISN', '=', 'nilais.NISN')
                 ->join('absens', 'nilais.id', '=', 'absens.id_nilai')
                 ->select('datasiswas.*','nilais.*', 'absens.*')

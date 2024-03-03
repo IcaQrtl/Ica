@@ -104,6 +104,9 @@
 
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
+    <script>
+        $('#table-data').DataTable();
+    </script>
 </body>
 
 </html>

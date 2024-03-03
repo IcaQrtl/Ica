@@ -14,17 +14,11 @@ class CreateUsersSeeder extends Seeder
      */
     public function run()
     {
-        $user = [
-            [
-                'name' => 'Admin',
-                'email' => 'admin@mail.com',
-                'password' => bcrypt('12345678'),
-                'role_id' => 1
-            ]
-        ];
+        $this->call([
+            CreateAdminUserSeeder::class,
+            CreateGuruUserSeeder::class,
+            CreateSiswaUserSeeder::class,
+        ]);
 
-        foreach($user as $key => $value){
-            User::create($value);
-        }
     }
 }

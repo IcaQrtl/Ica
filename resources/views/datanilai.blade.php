@@ -3,7 +3,7 @@
 @section('title', 'Data Nilai')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Input Data Nilai</h1>
+    <h1 class="m-0 text-dark">Data Nilai</h1>
 @stop
 
 @section('content')
@@ -14,18 +14,47 @@ $params_id = null;
 <div class="container-fluid">
     <div class="card card-default">
         <div class="card-body">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahNilai">
-             Input Data Nilai</button>
-             <table id="table-data" class="table table-bordered">
+            <div class="row justify-content-end m-1">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahNilai">Tambah Data Nilai</button>
+            </div>
+            <br>
+            <!-- Data Nilai -->
+            <table class="table table-bordered text-center justify-content-center" id="table-data">
                 <thead>
-                    {{--Data Kelas--}}
+                    <th>No</th>
+                    <th>NISN</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Nilai</th>
+                    <th>Kompetensi Dasar</th>
+                    <th>Penilai</th>
+                    <th>Aksi</th>
                 </thead>
-            </table>
+                <tbody>
+                @php $no=1; @endphp
+                    @foreach($nilai as $nilais)
+                        <tr>
+                            <td>{{$no++}}</td>
+                            <td>{{$nilais->NISN}}</td>
+                            <td>{{$nilais->mata_pelajaran}}</td>
+                            <td>{{$nilais->nilai}}</td>
+                            <td>{{$nilais->kompetensi_dasar}}</td>
+                            <td>{{$nilais->created_by}}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic exxample">
+                                    <button type="button" id="btn-edit-nilai" class="btn btn-success" data-toggle="modal" data-target="#EditNilai" data-id="{{ $nilais->id }}">Edit</button>    
+                                    <a href="{{ route('delete.datanilai', $nilais->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>        
         </div>
+
     </div>
 </div>
 
-<!--modal-->
+<!-- Modal Tambah -->
 <div class="modal fade" id="TambahNilai" tabindex="-1" role="dialog" aria-labelledby="TambahNilaiLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -35,28 +64,24 @@ $params_id = null;
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-
         <div class="modal-body">
             <form id="datanilai" name="datakelas" method="post" action="{{route('create.datanilai')}}" enctype="multipart/form-data">
                 @csrf
                 <h5>Data Nilai</h5>
                 <div class="form-group">
-                    <label for="NISN">Nama Siswa</label>
-                    <select name="NISN" class="form-control" id="NISN">
-                        <option value="">--Siswa--</option>
-                        @foreach($siswa as $siswa)
-                            <option value="{{$siswa->NISN}}">{{$siswa->nama}}</option>
-                        @endforeach
-                    </select>                                            
-                </div>
-                <div class="form-group">
                     <label for="matapelajaran">Mata Pelajaran</label>
                     <select name="matapelajaran" class="form-control" id="matapelajaran">
                         <option value="">--Mata Pelajaran--</option>
                         @foreach($matapelajaran as $mapel)
-                            <option value="{{$mapel->nama}}">{{$mapel->nama}}</option>
+                            <option value="{{$mapel->id}},{{$mapel->kelas_id}}">{{$mapel->nama}} - {{ $mapel->nama_kelas}}</option>
                         @endforeach
                     </select> 
+                </div>
+                <div class="form-group">
+                    <label for="NISN">Nama Siswa</label>
+                    <select name="NISN" class="form-control" id="NISN">
+                        <option value="">--Siswa--</option>
+                    </select>                                            
                 </div>
                 <div class="form-group">
                     <label for="nilai">Nilai</label>
@@ -75,41 +100,6 @@ $params_id = null;
         </div>  
     </div>
 </div>
-</div>
-
-<!-- Data Kelas -->
-<div class="card-body">
-    <h3>Data Kelas</h3>
-    <table class="table table-bordered text-center justify-content-center">
-        <thead>
-            <th>No</th>
-            <th>NISN</th>
-            <th>Mata Pelajaran</th>
-            <th>Nilai</th>
-            <th>Kompetensi Dasar</th>
-            <th>Penilai</th>
-            <th>Aksi</th>
-        </thead>
-        <tbody>
-        @php $no=1; @endphp
-            @foreach($nilai as $nilais)
-                <tr>
-                    <td>{{$no++}}</td>
-                    <td>{{$nilais->NISN}}</td>
-                    <td>{{$nilais->mata_pelajaran}}</td>
-                    <td>{{$nilais->nilai}}</td>
-                    <td>{{$nilais->kompetensi_dasar}}</td>
-                    <td>{{$nilais->created_by}}</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic exxample">
-                            <button type="button" id="btn-edit-nilai" class="btn btn-success" data-toggle="modal" data-target="#EditNilai" data-id="{{ $nilais->id }}">Edit</button>    
-                            <a href="{{ route('delete.datanilai', $nilais->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>            
 </div>
 
 <!--modal edit-->
@@ -172,6 +162,35 @@ $params_id = null;
 
 @push('js')
 <script>
+    //Option for Siswa By MataPelajaran Selected
+    $(document).ready(function(){
+        $('#matapelajaran').change(function(){
+            var selectedMapel = $(this).val();
+            var siswaOptions = $('#NISN');
+            siswaOptions.empty().append('<option value="">--Siswa--</option>');
+            
+            if(selectedMapel) {
+                console.log(selectedMapel)
+                $.ajax({
+                    url: 'datanilai/get-siswa/' + selectedMapel,
+                    type: 'GET',
+                    success: function(response) {
+                        response.forEach(function(siswa) {
+                            console.log(siswa);
+                            siswaOptions.append($('<option>', {
+                                value: siswa.NISN,
+                                text: siswa.nama
+                            }));
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+
     //Edit
     $(function(){
         $(document).on('click','#btn-edit-nilai', function(){

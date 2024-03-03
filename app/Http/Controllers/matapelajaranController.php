@@ -11,8 +11,11 @@ class matapelajaranController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $matapelajaran = matapelajaran::all();
-
+        $matapelajaran = matapelajaran::join('datakelas', 'matapelajarans.kelas_id', '=', 'datakelas.id')
+                                        ->join('datagurus', 'matapelajarans.guru_id', '=', 'datagurus.id')
+                                        ->select('matapelajarans.*', 'datakelas.nama_kelas as nama_kelas', 'datagurus.nama as nama_guru')
+                                        ->get();
+        // dd($matapelajaran);
         $title = 'Hapus Mata Pelajaran!';
         $text = "Kamu yakin hapus mata pelaran ini ?";
         confirmDelete($title, $text); 

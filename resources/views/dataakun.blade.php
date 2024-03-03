@@ -3,7 +3,7 @@
 @section('title', 'Data Akun')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Input Data Akun</h1>
+    <h1 class="m-0 text-dark">Data Akun</h1>
 @stop
 
 @section('content')
@@ -14,15 +14,48 @@ $params_id = null;
 <div class="container-fluid">
     <div class="card card-default">
         <div class="card-body">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahAkun">
-             Input Data Akun</button>
-             <table id="table-data" class="table table-bordered">
-                <thead>
-                    {{--Data Akun--}}
-                </thead>
-            </table>
-            </div>
-            </div>
+            {{-- <div class="row justify-content-end">
+                <button type="button" class="btn btn-info m-1" data-toggle="modal" data-target="#TambahAkun"> Import Siswa </button>
+                <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#TambahAkun"> Tambah Data Akun </button>
+            </div> --}}
+            <br>
+            <!-- Data Akun -->
+                <table class="table table-bordered text-center justify-content-center" id="table-data">
+                    <thead>
+                        <th>No</th>
+                        <th>Username</th>
+                        <th>Nama</th>
+                        <th>Role</th>
+                        <th>Aksi</th>
+                    </thead>
+                    <tbody>
+                    @php $no=1; @endphp
+                        @foreach($dataakun as $value)
+                            <tr>
+                                <td>{{$no++}}</td>
+                                <td>{{$value->username}}</td>
+                                <td>{{$value->name}}</td>
+                                <td>
+                                    @if($value->role_id == 1)
+                                        Admin
+                                    @elseif($value->role_id == 2)
+                                        Guru
+                                    @elseif($value->role_id == 3)
+                                        Siswa
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" id="btn-edit-akun" class="btn btn-success" data-toggle="modal" data-target="#EditAkun" data-id="{{ $value->id }}">Edit</button>    
+                                        <a href="{{ route('delete.dataakun', $value->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+        </div>
+    </div>
 
 <!--modal tambah-->
 <div class="modal fade" id="TambahAkun" tabindex="-1" role="dialog" aria-labelledby="TambahAkunLabel" aria-hidden="true">
@@ -96,12 +129,12 @@ $params_id = null;
                     <div id="form-akun">
                         <h5>Data Akun</h5>
                         <div class="form-group">
-                            <label for="name">Username</label>
-                            <input type="text" class="form-control" name="name" id="edit-name" required/>
+                            <label for="username">username</label>
+                            <input type="text" class="form-control" name="username" id="edit-username" required/>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" id="edit-email" required/>
+                            <label for="name">Nama</label>
+                            <input type="text" class="form-control" name="name" id="edit-name" required/>
                         </div>
                     </div>
 
@@ -117,44 +150,7 @@ $params_id = null;
     </div>
 </div>
 
-<!-- Data Akun -->
-<div class="card-body">
-    <h3>Data Akun</h3>
-    <table class="table table-bordered text-center justify-content-center">
-        <thead>
-            <th>No</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Aksi</th>
-        </thead>
-        <tbody>
-        @php $no=1; @endphp
-            @foreach($dataakun as $value)
-                <tr>
-                    <td>{{$no++}}</td>
-                    <td>{{$value->name}}</td>
-                    <td>{{$value->email}}</td>
-                    <td>
-                        @if($value->role_id == 1)
-                            Admin
-                        @elseif($value->role_id == 2)
-                            Guru
-                        @elseif($value->role_id == 3)
-                            Siswa
-                        @endif
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" id="btn-edit-akun" class="btn btn-success" data-toggle="modal" data-target="#EditAkun" data-id="{{ $value->id }}">Edit</button>    
-                            <a href="{{ route('delete.dataakun', $value->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+
 
 @endsection
 
@@ -174,8 +170,8 @@ $params_id = null;
                 myForm.html(`
                 <h5>Data Guru</h5>
                 <div class="form-group">
-                    <label for="nilai">NIDN</label>
-                    <input type="text" class="form-control" name="NIDN" id="NIDN" required/>
+                    <label for="nilai">NIP</label>
+                    <input type="text" class="form-control" name="NIP" id="NIP" required/>
                 </div>
                 <div class="form-group">
                     <label for="nama">Nama</label>
@@ -258,8 +254,8 @@ $params_id = null;
                     console.log(res);
                     // $('#edit-name').val(res.name);
                     $('#edit-id').val(res.id);
+                    $('#edit-username').val(res.username);
                     $('#edit-name').val(res.name);
-                    $('#edit-email').val(res.email);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);

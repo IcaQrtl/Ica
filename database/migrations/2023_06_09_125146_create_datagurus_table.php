@@ -15,7 +15,7 @@ class CreateDatagurusTable extends Migration
     {
         Schema::create('datagurus', function (Blueprint $table) {
             $table->id();
-            $table->string('NIDN')->uniqeu();
+            $table->string('NIP')->uniqeu();
             $table->string('nama');
             $table->string('jeniskelamin');
             $table->string('notlpn');

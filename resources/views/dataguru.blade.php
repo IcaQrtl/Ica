@@ -3,7 +3,7 @@
 @section('title', 'Data Guru')
 
 @section('content_header')
-    <!-- <h1 class="m-0 text-dark">Input Data Guru</h1> -->
+    <h1 class="m-0 text-dark">Data Guru</h1> 
 @stop
 
 @section('content')
@@ -12,23 +12,63 @@ $params_id = null;
 ?>
 
 <div class="container-fluid">
-    <div class="card card-default">
 
+<!-- Modal Tambah -->
+<div class="modal fade" id="TambahGuru" tabindex="-1" role="dialog" aria-labelledby="TambahGuruLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TambahGuruLabel">Tambah Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="dataguru" name="dataguru" method="post" action="{{route('create.dataguru')}}" enctype="multipart/form-data">
+                    @csrf
+                    <h5>Data Guru</h5>
+                    <div class="form-group">
+                        <label for="NIP">NIP</label>
+                        <input type="text" class="form-control" name="NIP" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" name="nama" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="jeniskelamin">Pilih Jenis Kelamin</label>
+                        <select name="jeniskelamin" class="form-control" >
+                            <option value="">--Jenis Kelamin--</option>
+                            <option value="Laki-Laki"> Laki-Laki </option>
+                            <option value="Perempuan"> Perempuan </option>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <label for="notlpn">No Telp</label>
+                        <input type="text" class="form-control" name="notlpn" required/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
-<!--modal edit-->
+    
+<!-- Modal Edit -->
 <div class="modal fade" id="EditGuru" tabindex="-1" role="dialog" aria-labelledby="EditGuruLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="EditGuruLabel">Edit Data</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        <div class="modal-body">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditGuruLabel">Edit Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
                 <form id="dataguru" name="dataguru" method="post" action="{{route('update.dataguru')}}" enctype="multipart/form-data">
                     @csrf
                     
@@ -41,8 +81,8 @@ $params_id = null;
                         <label for="jeniskelamin">Pilih Jenis Kelamin</label>
                         <select name="jeniskelamin" class="form-control" id="edit-jeniskelamin">
                             <option value="">--Jenis Kelamin--</option>
-                            <option value="laki-laki"> Laki-Laki </option>
-                            <option value="perempuan"> Perempuan </option>
+                            <option value="Laki-Laki"> Laki-Laki </option>
+                            <option value="Perempuan"> Perempuan </option>
                         </select> 
                     </div>
                     <div class="form-group">
@@ -57,46 +97,51 @@ $params_id = null;
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
-                </div>
             </div>
+        </div>
     </div>
 </div>
 
 <!-- Data Diri -->
-<div class="card-body">
-            <h3>Data Guru</h3>
-            <table class="table table-bordered text-center justify-content-center">
-                <thead>
-                    <th>No</th>
-                    <th>NIDN</th>
-                    <th>Nama</th>
-                    <th>Jenis Kelamin</th>
-                    <th>No Telepon</th>
-                    <th>Aksi</th>
-                </thead>
-                <tbody>
-                @php $no=1; @endphp
-                    @foreach($dataguru as $datagurus)
-                        <tr>
-                            <td>{{$no++}}</td>
-                            <td>{{$datagurus->NIDN}}</td>
-                            <td>{{$datagurus->nama}}</td>
-                            <td>{{$datagurus->jeniskelamin}}</td>
-                            <td>{{$datagurus->notlpn}}</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic exxample">
-                                    <button type="button" id="btn-edit-guru" class="btn btn-success" data-toggle="modal" data-target="#EditGuru" data-id="{{ $datagurus->id }}">Edit</button>    
-                                    <a href="{{ route('delete.dataguru', $datagurus->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <br>
+<div class="card card-default">
+    <div class="card-body">
+        <div class="row justify-content-end">
+            <button type="button" class="btn btn-info m-1" data-toggle="modal" data-target=""> Import Guru </button>
+            <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#TambahGuru"> Tambah Data Guru </button>
         </div>
+        <br>
+        <table class="table table-bordered text-center justify-content-center" id="table-data">
+            <thead>
+                <th>No</th>
+                <th>NIP</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>No Telepon</th>
+                <th>Aksi</th>
+            </thead>
+            <tbody>
+            @php $no=1; @endphp
+                @foreach($dataguru as $datagurus)
+                    <tr>
+                        <td>{{$no++}}</td>
+                        <td>{{$datagurus->NIP}}</td>
+                        <td>{{$datagurus->nama}}</td>
+                        <td>{{$datagurus->jeniskelamin}}</td>
+                        <td>{{$datagurus->notlpn}}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic exxample">
+                                <button type="button" id="btn-edit-guru" class="btn btn-success" data-toggle="modal" data-target="#EditGuru" data-id="{{ $datagurus->id }}">Edit</button>    
+                                <a href="{{ route('delete.dataguru', $datagurus->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <br>
     </div>
 </div>
+
 
 @endsection
 

@@ -9,7 +9,7 @@ class datakelas extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'IDkelas',
-        'namakelas',
+        'nama_kelas',
+        'wali_id',
     ];
 }

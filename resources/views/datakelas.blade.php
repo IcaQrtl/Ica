@@ -3,7 +3,7 @@
 @section('title', 'Data Kelas')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Input Data Kelas</h1>
+    <h1 class="m-0 text-dark">Data Kelas</h1>
 @stop
 
 @section('content')
@@ -14,12 +14,34 @@ $params_id = null;
 <div class="container-fluid">
     <div class="card card-default">
         <div class="card-body">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKelas">
-             Input Data Kelas</button>
-             <table id="table-data" class="table table-bordered">
+            <div class="row justify-content-end m-1">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKelas">Tambah Data Kelas</button>
+            </div>
+            <br>
+            <!-- Data Kelas -->
+            <table class="table table-bordered text-center justify-content-center" id="table-data">
                 <thead>
-                    {{--Data Kelas--}}
+                    <th>No</th>
+                    <th>Nama Kelas</th>
+                    <th>Wali Kelas</th>
+                    <th>Aksi</th>
                 </thead>
+                <tbody>
+                @php $no=1; @endphp
+                    @foreach($datakelas as $datakelass)
+                        <tr>
+                            <td>{{$no++}}</td>
+                            <td>{{$datakelass->nama_kelas}}</td>
+                            <td>{{$datakelass->guru_nama}}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" id="btn-edit-kelas" class="btn btn-success" data-toggle="modal" data-target="#EditKelas" data-id="{{ $datakelass->id }}">Edit</button>    
+                                    <a href="{{ route('delete.datakelas', $datakelass->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
@@ -111,35 +133,6 @@ $params_id = null;
 </div>
 </div>
 
-<!-- Data Kelas -->
-<div class="card-body">
-    <h3>Data Kelas</h3>
-    <table class="table table-bordered text-center justify-content-center">
-        <thead>
-            <th>No</th>
-            <th>Nama Kelas</th>
-            <th>Wali Kelas</th>
-            <th>Aksi</th>
-        </thead>
-        <tbody>
-        @php $no=1; @endphp
-            @foreach($datakelas as $datakelass)
-                <tr>
-                    <td>{{$no++}}</td>
-                    <td>{{$datakelass->nama_kelas}}</td>
-                    <td>{{$datakelass->guru_nama}}</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" id="btn-edit-kelas" class="btn btn-success" data-toggle="modal" data-target="#EditKelas" data-id="{{ $datakelass->id }}">Edit</button>    
-                            <a href="{{ route('delete.datakelas', $datakelass->id) }}" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <br>
-</div>
 @endsection
 
 @push('js')

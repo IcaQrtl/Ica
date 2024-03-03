@@ -9,9 +9,10 @@ class dataguru extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'NIDN',
+        'NIP',
         'nama',
         'jeniskelamin',
         'notlpn',
     ];
+    
 }

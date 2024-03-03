@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 use App\Models\datakelas;
 use App\Models\dataguru;
 use App\Models\datasiswa;
@@ -17,10 +18,18 @@ class nilaiController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $user_id = Auth::user()->id;
+        $guru_id = dataguru::where('user_id', $user_id)->value('id');
+        
         $nilai = Nilai::where('created_by', $user->name)->get();
         $siswa = datasiswa::all();
         $siswas = datasiswa::all();
-        $matapelajaran = matapelajaran::all();            
+        // $kelas = matapelajaran::join('datakelas', 'matapelajarans.kelas_id', '=', 'datakelas.id')
+        //                         ->where('guru_id', $guru_id)->get();
+
+        $matapelajaran = matapelajaran::join('datakelas', 'matapelajarans.kelas_id', '=', 'datakelas.id')
+                                ->select('matapelajarans.*', 'datakelas.nama_kelas')
+                                ->where('guru_id', $guru_id)->get();   
 
         $wali = dataguru::leftJoin('datakelas', 'datagurus.id', '=', 'datakelas.wali_id')
                         ->select('datagurus.*')
@@ -30,8 +39,8 @@ class nilaiController extends Controller
         $title = 'Hapus Nilai!';
         $text = "Kamu yakin hapus nilai ini ?";
         confirmDelete($title, $text); 
-
-        return view('datanilai', compact('user', 'siswa', 'wali', 'nilai', 'matapelajaran', 'siswas'));
+        // dd($kelas);
+        return view('datanilai', compact('user', 'siswa', 'wali', 'nilai', 'matapelajaran', 'siswas',));
     }
 
     public function store(Request $req){
@@ -44,9 +53,13 @@ class nilaiController extends Controller
             'created_by' => 'required',
         ]);
 
+        $separate = explode(',', $req->get('matapelajaran'));
+        $mapel_id = Arr::get($separate, 0);
+        $matapelajaran = matapelajaran::where('id', $mapel_id)->value('nama');
+
         $nilai = new Nilai;
         $nilai->NISN = $req->get('NISN');
-        $nilai->mata_pelajaran = $req->get('matapelajaran');
+        $nilai->mata_pelajaran = $matapelajaran;
         $nilai->nilai = $req->get('nilai');
         $nilai->kompetensi_dasar = $req->get('kompetensi_dasar');
         $nilai->created_by = $req->get('created_by');
@@ -122,6 +135,21 @@ class nilaiController extends Controller
         confirmDelete($title, $text); 
 
         return view('nilaisiswa', compact('user', 'absen', 'nisn', 'nama'));
+    }
+
+    public function getSiswaByMatapelajaran($id)
+    {
+        $ids = explode(',', $id);
+        $matapelajaran_id = Arr::get($ids, 0);
+        $kelas_id = Arr::get($ids, 1);
+
+        $siswa = matapelajaran::join('datakelas', 'matapelajarans.kelas_id', '=', 'datakelas.id')
+                                ->join('datasiswas', 'datasiswas.kelas_id', '=', 'datakelas.id')
+                                ->where('matapelajarans.kelas_id', $kelas_id) 
+                                ->where('matapelajarans.id', $matapelajaran_id)
+                                ->get();
+
+        return response()->json($siswa);
     }
 
     // public function calculateTotalScore($nilai, $absen) {
